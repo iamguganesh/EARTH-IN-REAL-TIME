@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Earth in Real Time{% endblock %}</title>
+  <meta name="description" content="Explore live information about our planet — time zones, weather, sunrise & sunset, moon phase and NASA's picture of the day.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+</head>
+<body>
+
+  {% block content %}{% endblock %}
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h3 class="footer-brand">🌍 Earth in Real Time</h3>
+        <p>A live dashboard for our planet — time, weather, sky and space, all in one place.</p>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <p>Earth in Real Time pulls together live data sources to give you a real-time snapshot of the world: clocks across time zones, current weather anywhere, sunrise &amp; sunset, the moon's phase, and NASA's daily picture of space.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>Have feedback or a feature idea?</p>
+        <a href="mailto:hello@earthinrealtime.app" class="footer-link">hello@earthinrealtime.app</a>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <a href="https://github.com/" target="_blank" rel="noopener" class="footer-link">GitHub Repository →</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="footer-year"></span> Earth in Real Time. Built for exploring our planet, one data point at a time.</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="bg-gradient"></div>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <span class="nav-brand">🌍 Earth in Real Time</span>
+    <div class="nav-links">
+      <a href="#clock">Clock</a>
+      <a href="#weather">Weather</a>
+      <a href="#moon">Moon</a>
+      <a href="#map">Map</a>
+      <a href="#apod">NASA</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <span class="eyebrow">Live planetary dashboard</span>
+      <h1 class="hero-title">Earth in<br><span class="gradient-text">Real Time</span></h1>
+      <p class="hero-subtitle">Explore live information about our planet.</p>
+      <a href="#clock" class="btn-explore">
+        <span>Explore</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M19 12l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="hero-earth-wrap">
+      <div class="earth-glow"></div>
+      <div class="earth-sphere" aria-hidden="true">
+        <div class="earth-texture"></div>
+        <div class="earth-clouds"></div>
+        <div class="earth-shading"></div>
+        <div class="earth-rim"></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span></span>
+  </div>
+</section>
+
+<main class="page">
+
+  <!-- ============ WORLD CLOCK ============ -->
+  <section class="section" id="clock">
+    <div class="section-head">
+      <span class="section-eyebrow">01 — Time</span>
+      <h2>Live World Clock</h2>
+      <p>Real-time clocks for major cities across every time zone, updating every second.</p>
+    </div>
+    <div class="clock-grid" id="clock-grid">
+      {% for city in world_cities %}
+      <div class="glass-card clock-card" data-tz="{{ city.tz }}">
+        <div class="clock-time">--:--:--</div>
+        <div class="clock-city">{{ city.name }}</div>
+        <div class="clock-label">{{ city.label }}</div>
+        <div class="clock-date">--</div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ============ WEATHER + SUN + MOON ============ -->
+  <section class="section" id="weather">
+    <div class="section-head">
+      <span class="section-eyebrow">02 — Atmosphere</span>
+      <h2>Weather Anywhere on Earth</h2>
+      <p>Search any city for live conditions, sunrise &amp; sunset, and today's moon phase.</p>
+    </div>
+
+    <form class="search-bar glass-card" id="weather-form" autocomplete="off">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" id="city-input" placeholder="Search a city — e.g. Chennai, Tokyo, Paris" required>
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="weather-status" class="status-message" hidden></div>
+
+    <div class="weather-results" id="weather-results" hidden>
+      <div class="glass-card weather-main-card">
+        <div class="weather-main-top">
+          <div>
+            <h3 id="w-city">--</h3>
+            <p id="w-condition" class="weather-condition">--</p>
+          </div>
+          <img id="w-icon" class="weather-icon" src="" alt="" hidden>
+        </div>
+        <div class="weather-temp" id="w-temp">--°</div>
+        <div class="weather-stats-grid">
+          <div class="weather-stat">
+            <span class="stat-label">Feels Like</span>
+            <span class="stat-value" id="w-feels">--°</span>
+          </div>
+          <div class="weather-stat">
+            <span class="stat-label">Humidity</span>
+            <span class="stat-value" id="w-humidity">--%</span>
+          </div>
+          <div class="weather-stat">
+            <span class="stat-label">Wind Speed</span>
+            <span class="stat-value" id="w-wind">-- m/s</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card sun-card">
+        <h4>Sunrise &amp; Sunset</h4>
+        <div class="sun-row">
+          <div class="sun-item">
+            <span class="sun-icon">🌅</span>
+            <span class="sun-label">Sunrise</span>
+            <span class="sun-value" id="sun-rise">--</span>
+          </div>
+          <div class="sun-item">
+            <span class="sun-icon">🌇</span>
+            <span class="sun-label">Sunset</span>
+            <span class="sun-value" id="sun-set">--</span>
+          </div>
+          <div class="sun-item">
+            <span class="sun-icon">⏱️</span>
+            <span class="sun-label">Day Length</span>
+            <span class="sun-value" id="sun-length">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card moon-card" id="moon">
+        <h4>Moon Information</h4>
+        <div class="moon-row">
+          <div class="moon-emoji" id="moon-emoji">🌔</div>
+          <div class="moon-details">
+            <div class="moon-phase-name" id="moon-phase">--</div>
+            <div class="moon-stats">
+              <span>Illumination: <strong id="moon-illum">--%</strong></span>
+              <span>Moonrise: <strong id="moon-rise">--</strong></span>
+              <span>Moonset: <strong id="moon-set">--</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORLD TIME ZONES ============ -->
+  <section class="section" id="timezones">
+    <div class="section-head">
+      <span class="section-eyebrow">03 — Zones</span>
+      <h2>World Time Zones</h2>
+      <p>A quick glance at what time it is across every major region right now.</p>
+    </div>
+    <div class="tz-grid" id="tz-grid">
+      {% for city in world_cities %}
+      <div class="glass-card tz-card" data-tz="{{ city.tz }}">
+        <span class="tz-name">{{ city.name }}</span>
+        <span class="tz-time">--:--</span>
+        <span class="tz-offset">--</span>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ============ EARTH FACTS ============ -->
+  <section class="section" id="facts">
+    <div class="section-head">
+      <span class="section-eyebrow">04 — Trivia</span>
+      <h2>Earth Facts</h2>
+      <p>Random, bite-sized facts about the planet we call home.</p>
+    </div>
+    <div class="facts-wrap">
+      <div class="glass-card fact-card" id="fact-card">
+        <span class="fact-quote">"</span>
+        <p id="fact-text">Loading a fact about Earth…</p>
+      </div>
+      <button class="btn-secondary" id="new-fact-btn">New Fact ✨</button>
+    </div>
+  </section>
+
+  <!-- ============ INTERACTIVE MAP ============ -->
+  <section class="section" id="map">
+    <div class="section-head">
+      <span class="section-eyebrow">05 — Geography</span>
+      <h2>Interactive World Map</h2>
+      <p>Zoom and pan across the globe.</p>
+    </div>
+    <div class="glass-card map-card">
+      <div id="world-map"></div>
+    </div>
+  </section>
+
+<!-- ============ NASA APOD ============ -->
+<section class="section" id="apod">
+  <div class="section-head">
+    <span class="section-eyebrow">06 — Deep Space</span>
+    <h2>NASA Pictures of the Day</h2>
+    <p>The last few days of images from our universe, courtesy of NASA.</p>
+  </div>
+  <div class="apod-wrap">
+    <div class="apod-loading" id="apod-loading">
+      <div class="spinner"></div>
+      <p>Fetching recent images from NASA…</p>
+    </div>
+    <div class="apod-grid" id="apod-grid" hidden></div>
+  </div>
+
+<div class="apod-lightbox" id="apod-lightbox" hidden>
+  <div class="apod-lightbox-backdrop" id="apod-lightbox-backdrop"></div>
+  <div class="apod-lightbox-content">
+    <button class="apod-lightbox-close" id="apod-lightbox-close" aria-label="Close">✕</button>
+    <img id="apod-lightbox-img" src="" alt="">
+    <div class="apod-lightbox-text">
+      <h3 id="apod-lightbox-title">--</h3>
+      <span class="apod-date" id="apod-lightbox-date">--</span>
+      <p id="apod-lightbox-explanation">--</p>
+    </div>
+  </div>
+</div>
+</section>
+</main>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+{% endblock %}
