@@ -339,7 +339,12 @@ def api_moon():
     """Standalone endpoint for current moon phase data."""
     return jsonify(calculate_moon_phase())
 
-
+@app.route("/google59f5e3900c90b4e8.html")
+def google_verification():
+    return send_from_directory(
+        app.root_path,
+        "google59f5e3900c90b4e8.html"
+    )
 # ---------------------------------------------------------------------------
 # Error handlers
 # ---------------------------------------------------------------------------
@@ -356,9 +361,3 @@ def server_error(_error):
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
-
-if __name__ == "__main__":
-
-@app.route("/google59f5e3900c90b4e8.html")
-def google_verification():
-    return send_from_directory(".", "google59f5e3900c90b4e8.html")
