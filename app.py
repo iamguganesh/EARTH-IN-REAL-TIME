@@ -14,6 +14,7 @@ import random
 from datetime import datetime, timedelta, timezone
 
 import ephem
+from flask import send_from_directory
 import requests
 from flask import Flask, jsonify, render_template, request
 
@@ -355,3 +356,9 @@ def server_error(_error):
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
+
+if __name__ == "__main__":
+
+@app.route("/google59f5e3900c90b4e8.html")
+def google_verification():
+    return send_from_directory(".", "google59f5e3900c90b4e8.html")
